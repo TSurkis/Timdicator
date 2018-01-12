@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="Timdicator">
+        <attr name="circle_radius" format="dimension"/>
+        <attr name="distance_between_circles" format="dimension"/>
+        <attr name="number_of_circles" format="integer"/>
+        <attr name="chosen_circle_color" format="color"/>
+        <attr name="default_circle_color" format="color"/>
+    </declare-styleable>
+
+</resources>
