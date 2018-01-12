@@ -273,7 +273,7 @@ public class Timdicator extends View {
      *
      */
     private void measureIndicesOfIndicatorStations(boolean shouldAddScreenOffset) {
-        if (numberOfCircles > 0) {
+        if (numberOfCircles > 0 && circleLocations == null) {
             circleLocations = new float[numberOfCircles];
 
             float xCounter = getPaddingLeft() + circleRadiusInPX;
@@ -295,6 +295,16 @@ public class Timdicator extends View {
                 }
             }
         }
+    }
+
+    /**
+     * Once this method is called all the calculations need to happen again.
+     * Therefore, the current array of x coordinates is cleaned.
+     */
+    @Override
+    public void requestLayout() {
+        circleLocations = null;
+        super.requestLayout();
     }
 
     /*
