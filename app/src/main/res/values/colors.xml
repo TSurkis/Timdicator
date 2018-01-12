@@ -4,6 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="indicator_chosen_page_color">#ffffff</color>
-    <color name="indicator_default_page_color">#1e7909</color>
+    <color name="indicator_chosen_page_color">#012345</color>
+    <color name="indicator_default_page_color">#f43210</color>
 </resources>

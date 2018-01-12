@@ -7,20 +7,20 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <com.tsurkis.timdicator.Timdicator
-        android:id="@+id/indicatorNew"
-        android:layout_width="match_parent"
+        android:id="@+id/timdicator"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:padding="8dp"
         app:circle_radius="10dp"
         app:distance_between_circles="5dp"
-        android:paddingRight="8dp"
-        android:paddingLeft="8dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:layout_marginBottom="16dp"/>
+        app:number_of_circles="5"
+        app:default_circle_color="@color/indicator_default_page_color"
+        app:chosen_circle_color="@color/indicator_chosen_page_color" />
 
 </RelativeLayout>
