@@ -3,6 +3,8 @@
 This library was created for educational purposes first and embodies simplicity in its design. 
 You can read more at:
 
+![Timdicator demo](https://github.com/TSurkis/Timdicator/blob/master/README_assets/indicator_screen_record.gif)
+
 ## Download
 
 There are two steps:
