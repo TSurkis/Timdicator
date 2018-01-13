@@ -404,4 +404,32 @@ public class Timdicator extends View {
     private static float dpToPx(final Context context, final float value) {
         return value * context.getResources().getDisplayMetrics().density;
     }
+
+    /*
+        ******************************************************************************************
+
+        Setters
+
+        ******************************************************************************************
+     */
+
+    public void setDefaultCirclePaint(Paint defaultCirclePaint) {
+        this.defaultCirclePaint = defaultCirclePaint;
+    }
+
+    public void setChosenCirclePaint(Paint chosenCirclePaint) {
+        this.chosenCirclePaint = chosenCirclePaint;
+    }
+
+    public void setCircleRadiusInDp(Context context, float circleRadiusInDp) {
+        this.circleRadiusInPX = dpToPx(context, circleRadiusInDp);
+    }
+
+    public void setDistanceBetweenCircleInDp(Context context, float distanceBetweenCircleInPX) {
+        this.distanceBetweenCircleInPX = dpToPx(context, distanceBetweenCircleInPX);
+    }
+
+    public void setNumberOfCircles(int numberOfCircles) {
+        this.numberOfCircles = numberOfCircles;
+    }
 }
