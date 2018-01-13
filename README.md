@@ -31,18 +31,22 @@ There are two steps:
 
 ```
   dependencies {
-    compile 'com.github.tsurkis:timdicator:1.0.1'
+    compile 'com.github.tsurkis:timdicator:1.0.3'
   }
 ```
 
 ## How to use
 
-1. Create Timdicator in your desired layout:
+1. Create Timdicator in a layout or programmatically:
 ```
   <com.tsurkis.timdicator.Timdicator
       android:id="@+id/timdicator"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"/>
+```
+
+```
+  Timdicator timdicator = new Timdicator(context);
 ```
 2. Fetch your view in any desired way:
 ```
@@ -64,10 +68,10 @@ Additionaly, this attachment will bind Timdicator view to the ViewPager as an On
 
 ## Parameters
 
-| Parameters | Xml Attritube | value |
-|---|---|---|
-| radius | circle_radius | dp |
-| distance between each circle | distance_between_circles | dp |
-| number of circles | number_of_circles | int |
-| chosen circle color | chosen_circle_color | color |
-| default circle color | default_circle_color | color |
+| Parameters | Xml Attritube | Setter Method | Value |
+|---|---|---|---|
+| radius | circle_radius | setCircleRadiusInDp(Context, float) | dp |
+| distance between each circle | distance_between_circles | setDistanceBetweenCircleInDp(Context, float) | dp |
+| number of circles | number_of_circles | setNumberOfCircles(int) | int |
+| chosen circle color | chosen_circle_color | setChosenCircleColor(Context, \@ColorRes int) | color |
+| default circle color | default_circle_color | setDefaultCircleColor(Context, \@ColorRes int) | color |
