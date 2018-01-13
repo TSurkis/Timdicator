@@ -6,8 +6,10 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
@@ -15,7 +17,9 @@ import android.view.View;
 import java.lang.ref.WeakReference;
 
 /**
- * Lightweight indicator class for ViewPager.
+ * Lightweight indicator class for a ViewPager.
+ *
+ * Timdicator = (Tim + Indicator)
  *
  * Created by T.Surkis.
  */
@@ -413,19 +417,23 @@ public class Timdicator extends View {
         ******************************************************************************************
      */
 
-    public void setDefaultCirclePaint(Paint defaultCirclePaint) {
-        this.defaultCirclePaint = defaultCirclePaint;
+    public void setChosenCircleColor(@NonNull Context context, @ColorRes int color) {
+        chosenCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        chosenCirclePaint.setColor(ContextCompat.getColor(context, color));
+        chosenCirclePaint.setStyle(Paint.Style.FILL);
     }
 
-    public void setChosenCirclePaint(Paint chosenCirclePaint) {
-        this.chosenCirclePaint = chosenCirclePaint;
+    public void setDefaultCircleColor(@NonNull Context context, @ColorRes int color) {
+        defaultCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        defaultCirclePaint.setColor(ContextCompat.getColor(context, color));
+        defaultCirclePaint.setStyle(Paint.Style.FILL);
     }
 
-    public void setCircleRadiusInDp(Context context, float circleRadiusInDp) {
+    public void setCircleRadiusInDp(@NonNull Context context, float circleRadiusInDp) {
         this.circleRadiusInPX = dpToPx(context, circleRadiusInDp);
     }
 
-    public void setDistanceBetweenCircleInDp(Context context, float distanceBetweenCircleInPX) {
+    public void setDistanceBetweenCircleInDp(@NonNull Context context, float distanceBetweenCircleInPX) {
         this.distanceBetweenCircleInPX = dpToPx(context, distanceBetweenCircleInPX);
     }
 
