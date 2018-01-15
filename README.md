@@ -1,11 +1,11 @@
 # Timdicator [![](https://jitpack.io/v/tsurkis/timdicator.svg)](https://jitpack.io/#tsurkis/timdicator)
  
 This library was created for educational purposes first and embodies simplicity in its design. 
-You can read more at:
+You can read more at: https://android.jlelse.eu/become-an-android-painter-aadf91cec9d4
 
 ![Timdicator demo](https://github.com/TSurkis/Timdicator/blob/master/README_assets/indicator_screen_record.gif)
 
-## Download
+## Implementation
 
 There are two steps:
 1. Adding the Jitpack repository:
