@@ -38,6 +38,8 @@ public class Timdicator extends View {
 
     private int currentIndex = 0;
 
+    private LifeCycleObserver lifeCycleObserver;
+
     public Timdicator(Context context) {
         super(context);
 
@@ -301,6 +303,14 @@ public class Timdicator extends View {
         }
     }
 
+    /*
+        ******************************************************************************************
+
+        General life cycle methods
+
+        ******************************************************************************************
+     */
+
     /**
      * Once this method is called all the calculations need to happen again.
      * Therefore, the current array of x coordinates is cleaned.
@@ -311,83 +321,18 @@ public class Timdicator extends View {
         super.requestLayout();
     }
 
-    /*
-        ******************************************************************************************
-
-        Binding
-
-        ******************************************************************************************
-     */
-
     /**
-     * Reference to the corresponding ViewPager is saved to effectively remove the observer
-     * when the view dies.
-     */
-    private WeakReference<ViewPager> boundViewPager;
-
-    /**
-     * Observer for the page change events of the ViewPager.
-     * When a page changes, the index will be replaced and the entire view will be redrawn by
-     * calling invalidate().
-     */
-    private final ViewPager.OnPageChangeListener pageChangeObserver = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            Timdicator.this.currentIndex = position;
-            invalidate();
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-
-        }
-    };
-
-    /**
-     * Attaches the view to the ViewPager page observing events.
-     *
-     * @param viewPager
-     */
-    public void attach(@NonNull ViewPager viewPager) {
-
-        if (numberOfCircles != 0) {
-            boundViewPager = new WeakReference<>(viewPager);
-            viewPager.addOnPageChangeListener(pageChangeObserver);
-        }
-    }
-    /**
-     * Attaches the view to the ViewPager page observing events.
-     *
-     * A dynamic method that allows the ViewPager dictate the number of circles instead of an
-     * attribute. Consequently, If the number of circles does not match the number of pages, the view
-     * will adjust itself accordingly.
-     *
-     * @param viewPager
-     */
-    public void attachDynamically(@NonNull ViewPager viewPager) {
-        if (viewPager.getAdapter() != null && viewPager.getAdapter().getCount() != numberOfCircles) {
-            numberOfCircles = viewPager.getAdapter().getCount();
-            requestLayout();
-        }
-
-        attach(viewPager);
-    }
-
-    /**
-     * On detachment the view will remove its listener from the ViewPager.
+     * On detachment the life cycle observer, if one exists, will be notified of the
+     * changes and then removed.
      */
     @Override
     protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-
-        if (boundViewPager != null && boundViewPager.get() != null) {
-            boundViewPager.get().removeOnPageChangeListener(pageChangeObserver);
+        if (lifeCycleObserver != null) {
+            lifeCycleObserver.onDetached();
+            lifeCycleObserver = null;
         }
+
+        super.onDetachedFromWindow();
     }
 
     /*
@@ -412,31 +357,95 @@ public class Timdicator extends View {
     /*
         ******************************************************************************************
 
-        Setters
+        Setters & Getters
 
         ******************************************************************************************
      */
 
+    /**
+     * Updates the current index and redraws the view because the state has changed.
+     *
+     * Exists only for the usage of a binder class.
+     *
+     * @param index
+     */
+    void setIndex(int index) {
+       this.currentIndex = index;
+       invalidate();
+    }
+
+    /**
+     * Returns the number of circles.
+     *
+     * Exists only for the usage of a binder class.
+     *
+     * @return
+     */
+    int getNumberOfCircles() {
+        return numberOfCircles;
+    }
+
+    /**
+     * Sets an interface that observers the life cycle of Timdicator.
+     *
+     * Exists only for the usage of a binder class.
+     *
+     */
+    void setLifeCycleObserver(LifeCycleObserver lifeCycleObserver) {
+        this.lifeCycleObserver = lifeCycleObserver;
+    }
+
+    /**
+     * Setter for the color that represents the current page.
+     *
+     * @param context
+     * @param color
+     */
     public void setChosenCircleColor(@NonNull Context context, @ColorRes int color) {
-        chosenCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        chosenCirclePaint.setColor(ContextCompat.getColor(context, color));
-        chosenCirclePaint.setStyle(Paint.Style.FILL);
+        this.chosenCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        this.chosenCirclePaint.setColor(ContextCompat.getColor(context, color));
+        this.chosenCirclePaint.setStyle(Paint.Style.FILL);
     }
 
+    /**
+     * Setter for the color that represents any page that is not the current page.
+     * @param context
+     * @param color
+     */
     public void setDefaultCircleColor(@NonNull Context context, @ColorRes int color) {
-        defaultCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        defaultCirclePaint.setColor(ContextCompat.getColor(context, color));
-        defaultCirclePaint.setStyle(Paint.Style.FILL);
+        this.defaultCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        this.defaultCirclePaint.setColor(ContextCompat.getColor(context, color));
+        this.defaultCirclePaint.setStyle(Paint.Style.FILL);
     }
 
+    /**
+     * Setter for the radius of a circle.
+     *
+     * @param context
+     * @param circleRadiusInDp
+     */
     public void setCircleRadiusInDp(@NonNull Context context, float circleRadiusInDp) {
         this.circleRadiusInPX = dpToPx(context, circleRadiusInDp);
     }
 
+    /**
+     * Setter for the distance between circles.
+     *
+     * @param context
+     * @param distanceBetweenCircleInPX
+     */
     public void setDistanceBetweenCircleInDp(@NonNull Context context, float distanceBetweenCircleInPX) {
         this.distanceBetweenCircleInPX = dpToPx(context, distanceBetweenCircleInPX);
     }
 
+    /**
+     * Setter for the number of circles the view needs to represent.
+     *
+     * Please note that this method only updates the variable and is not
+     * responsible for redrawing or remeasuring the view.
+     *
+     * @param numberOfCircles
+     */
     public void setNumberOfCircles(int numberOfCircles) {
         this.numberOfCircles = numberOfCircles;
     }
