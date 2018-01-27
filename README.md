@@ -33,7 +33,7 @@ There are two steps:
 
 ```
   dependencies {
-    compile 'com.github.tsurkis:timdicator:1.0.3'
+    compile 'com.github.tsurkis:timdicator:1.1.0'
   }
 ```
 
@@ -50,23 +50,37 @@ There are two steps:
 ```
   Timdicator timdicator = new Timdicator(context);
 ```
-2. Fetch your view in any desired way:
-```
-  Timdicator timdicator = findViewById(R.id.timdicator);
-```
-3. Attach your ViewPager to Timdicator:
-    - Regular attachment:
-    ```
-      timdicator.attach(viewPager);
-    ```
-    This attachment will bind Timdicator view to the ViewPager as an OnPageChangeListener interface and will allow it to automatically switch states according to page selection. 
+2. Attach your ViewPager to Timdicator:
+    - Version 1.1.0+:
+      - Regular attachment:
+      ```
+        TimdicatorBinder.attachViewPager(timdicator, viewPager);
+      ```
+      
+      - Dynamic attachment:
+
+      ```
+        TimdicatorBinder.attachViewPagerDynamically(timdicator, viewPager);
+      ```
+    - Version 1.0.3 and lower:
+
+      - Regular attachment:
+      ```
+        timdicator.attach(viewPager);
+      ```
      
-    - Dynamic attachment:
-    ```
-      indicator.attachDynamically(viewPager);
-    ```
-    Initializes Timdicator according to the number of pages present in the ViewPager. Therefore, when using this method there is no need to declare number of circles in your layout. 
+      - Dynamic attachment:
+      ```
+        timdicator.attachDynamically(viewPager);
+      ```
+      
+**Regular attachment:** This attachment will bind Timdicator view to the ViewPager as an OnPageChangeListener interface and will allow it to automatically switch states according to page selection. 
+
+**Dynamic attachment:** Initializes Timdicator according to the number of pages present in the ViewPager. Therefore, when using this method there is no need to declare number of circles in your layout. 
 Additionaly, this attachment will bind Timdicator view to the ViewPager as an OnPageChangeListener interface and will allow it to automatically switch states according to page selection. 
+
+## Life Cycle Handling
+All the life cycle handling is done internally. Therefore, there is no need to call any destroy or nullifing method.
 
 ## Parameters
 
@@ -77,3 +91,4 @@ Additionaly, this attachment will bind Timdicator view to the ViewPager as an On
 | number of circles | number_of_circles | setNumberOfCircles(int) | int |
 | chosen circle color | chosen_circle_color | setChosenCircleColor(Context, \@ColorRes int) | color |
 | default circle color | default_circle_color | setDefaultCircleColor(Context, \@ColorRes int) | color |
+
