@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 
 
 import com.tsurkis.timdicator.Timdicator;
+import com.tsurkis.timdicator.TimdicatorBinder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +21,7 @@ public class MainActivity extends AppCompatActivity {
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager(), getDataCollectionOfColors()));
 
-        Timdicator indicator = findViewById(R.id.timdicator);
-        indicator.attachDynamically(viewPager);
+        TimdicatorBinder.attachViewPagerDynamically((Timdicator) findViewById(R.id.timdicator), viewPager);
     }
 
     private List<String> getDataCollectionOfColors() {

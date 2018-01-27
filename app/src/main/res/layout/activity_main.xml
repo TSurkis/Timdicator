@@ -19,7 +19,6 @@
         android:padding="8dp"
         app:circle_radius="10dp"
         app:distance_between_circles="5dp"
-        app:number_of_circles="5"
         app:default_circle_color="@color/indicator_default_page_color"
         app:chosen_circle_color="@color/indicator_chosen_page_color" />
 
