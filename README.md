@@ -1,4 +1,4 @@
-# Timdicator [![](https://jitpack.io/v/tsurkis/timdicator.svg)](https://jitpack.io/#tsurkis/timdicator)
+# Timdicator [![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=14) [![](https://jitpack.io/v/tsurkis/timdicator.svg)](https://jitpack.io/#tsurkis/timdicator)
  
 This library was created for educational purposes first and embodies simplicity in its design. 
 You can read more at: https://android.jlelse.eu/become-an-android-painter-aadf91cec9d4
