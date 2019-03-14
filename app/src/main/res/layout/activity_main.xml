@@ -9,6 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <com.tsurkis.timdicator.Timdicator
         android:id="@+id/timdicator"
         android:layout_width="wrap_content"
@@ -20,6 +25,20 @@
         app:circle_radius="10dp"
         app:distance_between_circles="5dp"
         app:default_circle_color="@color/indicator_default_page_color"
-        app:chosen_circle_color="@color/indicator_chosen_page_color" />
+        app:chosen_circle_color="@color/indicator_chosen_page_color"
+        />
+
+    <Button
+        android:id="@+id/switch_layouts_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/timdicator"
+        android:layout_centerHorizontal="true"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
+        android:background="@drawable/button"
+        android:textAllCaps="false"
+        android:foreground="?selectableItemBackground"
+        />
 
 </RelativeLayout>
