@@ -22,7 +22,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.AdapterViewHolder> {
   @NonNull
   @Override
   public AdapterViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
-    View rootView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.fragment_page, viewGroup, false);
+    View rootView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_page, viewGroup, false);
     return new AdapterViewHolder(rootView);
   }
 
