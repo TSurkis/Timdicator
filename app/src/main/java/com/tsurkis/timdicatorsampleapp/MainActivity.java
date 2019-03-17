@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
 
         timdicator = findViewById(R.id.timdicator);
 
+        TimdicatorBinder.attachRecyclerView(timdicator, recyclerView, snapHelper, true);
+
         button.setText("switch to RecyclerView");
         setViewPagerVisible();
 
@@ -80,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
         if (recyclerView.getAdapter() == null) {
             recyclerView.setAdapter(new Adapter(getDataCollectionOfColors()));
         }
-        TimdicatorBinder.attachRecyclerView(timdicator, recyclerView, snapHelper, true);
     }
 
     private List<String> getDataCollectionOfColors() {

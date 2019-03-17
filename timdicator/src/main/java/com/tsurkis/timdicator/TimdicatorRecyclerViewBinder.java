@@ -1,11 +1,11 @@
 package com.tsurkis.timdicator;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
-import android.util.Log;
 import android.view.View;
 
 class TimdicatorRecyclerViewBinder implements LifeCycleObserver {
@@ -48,6 +48,41 @@ class TimdicatorRecyclerViewBinder implements LifeCycleObserver {
     }
   };
 
+  private RecyclerView.AdapterDataObserver recyclerViewChangesObserver = new RecyclerView.AdapterDataObserver() {
+
+    @Override
+    public void onItemRangeChanged(int positionStart, int itemCount) {
+      updateTimdicator(itemCount);
+    }
+
+    @Override
+    public void onItemRangeChanged(int positionStart, int itemCount, @Nullable Object payload) {
+      updateTimdicator(itemCount);
+    }
+
+    @Override
+    public void onItemRangeInserted(int positionStart, int itemCount) {
+      updateTimdicator(itemCount);
+    }
+
+    @Override
+    public void onItemRangeRemoved(int positionStart, int itemCount) {
+      updateTimdicator(itemCount);
+    }
+
+    @Override
+    public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+      updateTimdicator(itemCount);
+    }
+
+    private void updateTimdicator(int newNumberOfCircles) {
+      if (TimdicatorRecyclerViewBinder.this.timdicator.getNumberOfCircles() != newNumberOfCircles) {
+        TimdicatorRecyclerViewBinder.this.timdicator.setNumberOfCircles(newNumberOfCircles);
+        TimdicatorRecyclerViewBinder.this.timdicator.requestLayout();
+      }
+    }
+  };
+
   public void attach(@NonNull Timdicator timdicator, @NonNull RecyclerView recyclerView, @NonNull SnapHelper snapHelper, boolean isHorizontal) {
     attach(timdicator, recyclerView, snapHelper, isHorizontal, recyclerView.getAdapter() != null ? recyclerView.getAdapter().getItemCount() : 0);
   }
@@ -61,8 +96,6 @@ class TimdicatorRecyclerViewBinder implements LifeCycleObserver {
     if (recyclerView.getAdapter() != null) {
       timdicator.setNumberOfCircles(recyclerView.getAdapter().getItemCount());
       timdicator.requestLayout();
-    } else {
-      Log.e(this.getClass().getSimpleName(), "Please define your adapter. The adapter is not defined and therefore Timdicator cannot calculate number of circles");
     }
     if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
       isReversed = ((LinearLayoutManager) recyclerView.getLayoutManager()).getReverseLayout();
@@ -73,6 +106,7 @@ class TimdicatorRecyclerViewBinder implements LifeCycleObserver {
     if (isReversed) {
       timdicator.setIndex(initialIndex);
     }
+    recyclerView.getAdapter().registerAdapterDataObserver(recyclerViewChangesObserver);
   }
 
   @Override
@@ -83,6 +117,11 @@ class TimdicatorRecyclerViewBinder implements LifeCycleObserver {
 
     if (recyclerView != null) {
       recyclerView.removeOnScrollListener(scrollListener);
+
+      if (recyclerView.getAdapter() != null) {
+        recyclerView.getAdapter().unregisterAdapterDataObserver(recyclerViewChangesObserver);
+      }
+
       recyclerView = null;
     }
 
