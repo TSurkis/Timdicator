@@ -33,7 +33,7 @@ There are two steps:
 
 ```
   dependencies {
-    compile 'com.github.tsurkis:timdicator:1.2.0'
+    implementation 'com.github.tsurkis:timdicator:1.2.0'
   }
 ```
 
