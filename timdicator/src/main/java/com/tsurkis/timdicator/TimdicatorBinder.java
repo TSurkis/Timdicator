@@ -2,6 +2,8 @@ package com.tsurkis.timdicator;
 
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 
 /**
  * Created by T.Surkis on 1/27/18.
@@ -35,5 +37,11 @@ public class TimdicatorBinder {
         TimdicatorViewPagerBinder timdicatorViewPagerBinder = new TimdicatorViewPagerBinder();
         timdicatorViewPagerBinder.attachDynamically(timdicator, viewPager);
         return timdicatorViewPagerBinder;
+    }
+
+    public static TimdicatorRecyclerViewBinder attachRecyclerView(@NonNull Timdicator timdicator, @NonNull RecyclerView recyclerView, @NonNull SnapHelper snapHelper, boolean isHorizontal) {
+        TimdicatorRecyclerViewBinder timdicatorRecyclerViewBinder = new TimdicatorRecyclerViewBinder();
+        timdicatorRecyclerViewBinder.attach(timdicator, recyclerView, snapHelper, isHorizontal);
+        return timdicatorRecyclerViewBinder;
     }
 }
