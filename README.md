@@ -33,7 +33,7 @@ There are two steps:
 
 ```
   dependencies {
-    compile 'com.github.tsurkis:timdicator:1.1.0'
+    compile 'com.github.tsurkis:timdicator:1.2.0'
   }
 ```
 
@@ -50,8 +50,9 @@ There are two steps:
 ```
   Timdicator timdicator = new Timdicator(context);
 ```
-2. Attach your ViewPager to Timdicator:
-    - Version 1.1.0+:
+2.
+ - Attach your ViewPager to Timdicator:
+    - Version 1.2.0+:
       - Regular attachment:
       ```
         TimdicatorBinder.attachViewPager(timdicator, viewPager);
@@ -74,10 +75,22 @@ There are two steps:
         timdicator.attachDynamically(viewPager);
       ```
       
+  - Attach your RecyclerView to Timdicator:
+    ```
+      TimdicatorBinder.attachRecyclerView(timdicator, recyclerView, pageSnapHelper, isHorizontal);
+    ```
+
+## Explanation
+
+### ViewPager
 **Regular attachment:** This attachment will bind Timdicator view to the ViewPager as an OnPageChangeListener interface and will allow it to automatically switch states according to page selection. 
 
 **Dynamic attachment:** Initializes Timdicator according to the number of pages present in the ViewPager. Therefore, when using this method there is no need to declare number of circles in your layout. 
-Additionaly, this attachment will bind Timdicator view to the ViewPager as an OnPageChangeListener interface and will allow it to automatically switch states according to page selection. 
+  Additionaly, this attachment will bind Timdicator view to the ViewPager as an OnPageChangeListener interface and will allow it to automatically switch states according to page selection.
+
+### RecyclerView
+RecyclerView Timdicator attachment is currently supported only with snapped pages. The pageSnapHelper and the orientation of the RecyclerView must be passed for the library to determine the correct page.
+  
 
 ## Life Cycle Handling
 All the life cycle handling is done internally. Therefore, there is no need to call any destroy or nullifing method.
