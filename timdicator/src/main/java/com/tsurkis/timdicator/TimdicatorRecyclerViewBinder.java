@@ -83,17 +83,18 @@ class TimdicatorRecyclerViewBinder implements LifeCycleObserver {
     }
   };
 
-  public void attach(@NonNull Timdicator timdicator, @NonNull RecyclerView recyclerView, @NonNull SnapHelper snapHelper, boolean isHorizontal) {
+  void attach(@NonNull Timdicator timdicator, @NonNull RecyclerView recyclerView, @NonNull SnapHelper snapHelper, boolean isHorizontal) {
     attach(timdicator, recyclerView, snapHelper, isHorizontal, recyclerView.getAdapter() != null ? recyclerView.getAdapter().getItemCount() : 0);
   }
 
-  public void attach(@NonNull Timdicator timdicator, @NonNull RecyclerView recyclerView, @NonNull SnapHelper snapHelper, boolean isHorizontal, int initialIndex) {
+  void attach(@NonNull Timdicator timdicator, @NonNull RecyclerView recyclerView, @NonNull SnapHelper snapHelper, boolean isHorizontal, int initialIndex) {
     this.timdicator = timdicator;
     this.recyclerView = recyclerView;
     this.snapHelper = snapHelper;
     this.isHorizontal = isHorizontal;
     recyclerView.addOnScrollListener(scrollListener);
     if (recyclerView.getAdapter() != null) {
+      recyclerView.getAdapter().registerAdapterDataObserver(recyclerViewChangesObserver);
       timdicator.setNumberOfCircles(recyclerView.getAdapter().getItemCount());
       timdicator.requestLayout();
     }
@@ -106,7 +107,6 @@ class TimdicatorRecyclerViewBinder implements LifeCycleObserver {
     if (isReversed) {
       timdicator.setIndex(initialIndex);
     }
-    recyclerView.getAdapter().registerAdapterDataObserver(recyclerViewChangesObserver);
   }
 
   @Override
