@@ -33,7 +33,7 @@ There are two steps:
 
 ```
   dependencies {
-    implementation 'com.github.tsurkis:timdicator:1.2.0'
+    implementation 'com.github.tsurkis:timdicator:1.2.2'
   }
 ```
 
@@ -52,7 +52,7 @@ There are two steps:
 ```
 2.
  - Attach your ViewPager to Timdicator:
-    - Version 1.2.0+:
+    - Current Versions:
       - Regular attachment:
       ```
         TimdicatorBinder.attachViewPager(timdicator, viewPager);
