@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.view.View;
 import android.widget.Button;
 
@@ -27,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Timdicator timdicator;
 
+    private PagerSnapHelper snapHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setVisibility(View.GONE);
+        snapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(recyclerView);
 
         timdicator = findViewById(R.id.timdicator);
 
@@ -74,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         if (recyclerView.getAdapter() == null) {
             recyclerView.setAdapter(new Adapter(getDataCollectionOfColors()));
         }
+        TimdicatorBinder.attachRecyclerView(timdicator, recyclerView, snapHelper, true);
     }
 
     private List<String> getDataCollectionOfColors() {
