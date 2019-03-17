@@ -20,22 +20,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:paddingTop="19dp"
-        android:paddingBottom="30dp"
-        app:number_of_circles="0"
-        app:circle_radius="6dp"
-        app:distance_between_circles="4dp"
-        app:default_circle_color="@color/indicator_default_page_color"
-        app:chosen_circle_color="@color/indicator_chosen_page_color"
-        />
-<!--
-
-
         android:layout_marginBottom="16dp"
         android:padding="8dp"
         app:circle_radius="10dp"
         app:distance_between_circles="5dp"
--->
+        app:default_circle_color="@color/indicator_default_page_color"
+        app:chosen_circle_color="@color/indicator_chosen_page_color"
+        />
+
     <Button
         android:id="@+id/switch_layouts_button"
         android:layout_width="wrap_content"
