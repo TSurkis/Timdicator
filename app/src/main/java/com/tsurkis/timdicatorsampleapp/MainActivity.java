@@ -6,10 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SnapHelper;
 import android.view.View;
 import android.widget.Button;
-
 
 import com.tsurkis.timdicator.Timdicator;
 import com.tsurkis.timdicator.TimdicatorBinder;
@@ -51,7 +49,9 @@ public class MainActivity extends AppCompatActivity {
 
         timdicator = findViewById(R.id.timdicator);
 
-        TimdicatorBinder.attachRecyclerView(timdicator, recyclerView, snapHelper, true);
+        TimdicatorBinder.attachRecyclerView(timdicator, recyclerView, snapHelper);
+
+        recyclerView.scrollToPosition(3);
 
         button.setText("switch to RecyclerView");
         setViewPagerVisible();
@@ -90,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
             colors.add("#910505");
             colors.add("#74f441");
             colors.add("#f4bb41");
+            colors.add("#f5b890");
+            colors.add("#807f3f");
         }
         return colors;
     }
