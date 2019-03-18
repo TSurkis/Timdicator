@@ -14,37 +14,17 @@ class TimdicatorRecyclerViewBinder implements LifeCycleObserver {
 
   private RecyclerView recyclerView;
 
-  private boolean isHorizontal;
-
   private SnapHelper snapHelper;
 
-  private int pageSize;
-
-  private int currentScrollPosition = 0;
+  private boolean isReversed = false;
 
   private int currentPage = RecyclerView.NO_POSITION;
-
-  private boolean isReversed = false;
 
   private RecyclerView.OnScrollListener scrollListener = new RecyclerView.OnScrollListener() {
 
     @Override
     public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-      if (pageSize == 0) {
-        View somePage = snapHelper.findSnapView(recyclerView.getLayoutManager());
-        if (somePage != null) {
-          pageSize = isHorizontal ? somePage.getWidth() : somePage.getHeight();
-        }
-      }
-      currentScrollPosition -= isHorizontal ? dx : dy;
-      int currentPagePosition = Math.abs(currentScrollPosition) / pageSize;
-      if (isReversed) {
-        currentPagePosition = timdicator.getNumberOfCircles() - 1 - currentPagePosition;
-      }
-      if (currentPage != currentPagePosition) {
-        timdicator.setIndex(currentPagePosition);
-        currentPage = currentPagePosition;
-      }
+      setTimdicatorToCurrentRecyclerViewPosition();
     }
   };
 
@@ -52,60 +32,65 @@ class TimdicatorRecyclerViewBinder implements LifeCycleObserver {
 
     @Override
     public void onItemRangeChanged(int positionStart, int itemCount) {
-      updateTimdicator(itemCount);
+      updateTimdicator();
     }
 
     @Override
     public void onItemRangeChanged(int positionStart, int itemCount, @Nullable Object payload) {
-      updateTimdicator(itemCount);
+      updateTimdicator();
     }
 
     @Override
     public void onItemRangeInserted(int positionStart, int itemCount) {
-      updateTimdicator(itemCount);
+      updateTimdicator();
     }
 
     @Override
     public void onItemRangeRemoved(int positionStart, int itemCount) {
-      updateTimdicator(itemCount);
+      updateTimdicator();
     }
 
     @Override
     public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
-      updateTimdicator(itemCount);
-    }
-
-    private void updateTimdicator(int newNumberOfCircles) {
-      if (TimdicatorRecyclerViewBinder.this.timdicator.getNumberOfCircles() != newNumberOfCircles) {
-        TimdicatorRecyclerViewBinder.this.timdicator.setNumberOfCircles(newNumberOfCircles);
-        TimdicatorRecyclerViewBinder.this.timdicator.requestLayout();
-      }
+      updateTimdicator();
     }
   };
 
-  void attach(@NonNull Timdicator timdicator, @NonNull RecyclerView recyclerView, @NonNull SnapHelper snapHelper, boolean isHorizontal) {
-    attach(timdicator, recyclerView, snapHelper, isHorizontal, recyclerView.getAdapter() != null ? recyclerView.getAdapter().getItemCount() : 0);
-  }
-
-  void attach(@NonNull Timdicator timdicator, @NonNull RecyclerView recyclerView, @NonNull SnapHelper snapHelper, boolean isHorizontal, int initialIndex) {
+  void attach(@NonNull Timdicator timdicator, @NonNull RecyclerView recyclerView, @NonNull SnapHelper snapHelper) {
     this.timdicator = timdicator;
     this.recyclerView = recyclerView;
     this.snapHelper = snapHelper;
-    this.isHorizontal = isHorizontal;
-    recyclerView.addOnScrollListener(scrollListener);
-    if (recyclerView.getAdapter() != null) {
-      recyclerView.getAdapter().registerAdapterDataObserver(recyclerViewChangesObserver);
-      timdicator.setNumberOfCircles(recyclerView.getAdapter().getItemCount());
-      timdicator.requestLayout();
-    }
     if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
       isReversed = ((LinearLayoutManager) recyclerView.getLayoutManager()).getReverseLayout();
     }
     if (recyclerView.getLayoutManager() instanceof GridLayoutManager) {
       isReversed = ((GridLayoutManager) recyclerView.getLayoutManager()).getReverseLayout();
     }
-    if (isReversed) {
-      timdicator.setIndex(initialIndex);
+    recyclerView.addOnScrollListener(scrollListener);
+    updateTimdicator();
+  }
+
+  private void setTimdicatorToCurrentRecyclerViewPosition() {
+    if (recyclerView != null && snapHelper != null && recyclerView.getLayoutManager() != null && recyclerView.getAdapter() != null) {
+      View currentlySnappedView = snapHelper.findSnapView(recyclerView.getLayoutManager());
+      if (currentlySnappedView != null) {
+        int snappedPage = recyclerView.getLayoutManager().getPosition(currentlySnappedView);
+        if (isReversed) {
+          snappedPage = recyclerView.getAdapter().getItemCount() - snappedPage - 1;
+        }
+        if (snappedPage != currentPage) {
+          currentPage = snappedPage;
+          timdicator.setIndex(currentPage);
+        }
+      }
+    }
+  }
+
+  private void updateTimdicator() {
+    if (recyclerView != null && recyclerView.getAdapter() != null) {
+      TimdicatorRecyclerViewBinder.this.timdicator.setNumberOfCircles(recyclerView.getAdapter().getItemCount());
+      TimdicatorRecyclerViewBinder.this.timdicator.requestLayout();
+      setTimdicatorToCurrentRecyclerViewPosition();
     }
   }
 

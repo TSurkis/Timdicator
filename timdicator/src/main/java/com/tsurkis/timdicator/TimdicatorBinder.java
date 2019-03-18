@@ -39,8 +39,8 @@ public class TimdicatorBinder {
         return timdicatorViewPagerBinder;
     }
 
-    public static void attachRecyclerView(@NonNull Timdicator timdicator, @NonNull RecyclerView recyclerView, @NonNull SnapHelper snapHelper, boolean isHorizontal) {
+    public static void attachRecyclerView(@NonNull Timdicator timdicator, @NonNull RecyclerView recyclerView, @NonNull SnapHelper snapHelper) {
         TimdicatorRecyclerViewBinder timdicatorRecyclerViewBinder = new TimdicatorRecyclerViewBinder();
-        timdicatorRecyclerViewBinder.attach(timdicator, recyclerView, snapHelper, isHorizontal);
+        timdicatorRecyclerViewBinder.attach(timdicator, recyclerView, snapHelper);
     }
 }
